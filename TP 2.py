@@ -15,7 +15,7 @@ import pandas as pd
 #%% ------------------------------------------------------------------------------------------
 
 # Importamos el dataset
-carpeta = "C:/Users/franc/Documents/Facultad/Laboratorio de datos/TP - 2/"
+carpeta = "~/Downloads/"
 numeros = pd.read_csv(carpeta+'TMNIST_Data.csv')
 #%% ------------------------------------------------------------------------------------------
 # Analisis exploratorio
@@ -73,3 +73,53 @@ plt.show()
 # Estos son los datos mas importantes para entrenar el modelo
 #%% ------------------------------------------------------------------------------------------
 # 1b)
+
+# Filtrar las imágenes de los dígitos 1 y 3
+digit_1_images = labels[labels['labels'] == 1].iloc[:, 1:]  
+digit_3_images = labels[labels['labels'] == 3].iloc[:, 1:]
+
+# Calcular la media de cada columna con un píxel, para cada dígito
+# Media por columna
+digit_1_means = digit_1_images.mean(axis=0)  
+digit_3_means = digit_3_images.mean(axis=0)  
+
+# Crear un histograma para comparar las medias de cada columna
+plt.figure(figsize=(12, 6))
+plt.bar(range(784), digit_1_means, alpha=0.5, label='Dígito 1', color='blue')
+plt.bar(range(784), digit_3_means, alpha=0.5, label='Dígito 3', color='red')
+
+plt.title('Comparación de Medias de Píxeles entre Dígitos 1 y 3')
+plt.xlabel('Columnas de Píxeles')
+plt.ylabel('Valor Medio de Píxeles')
+plt.legend()
+plt.grid()
+# Cambie el rango que muestro en el grafico porque los dema no tenian datos relevantes
+plt.xlim(87, 720)
+ticks = np.arange(90, 720, 20) 
+plt.xticks(ticks=ticks)
+plt.show()
+
+# Filtrar las imágenes de los dígitos 3 y 8
+digit_3_images = labels[labels['labels'] == 3].iloc[:, 1:]  
+digit_8_images = labels[labels['labels'] == 8].iloc[:, 1:]
+
+digit_1_means = digit_3_images.mean(axis=0)  
+digit_3_means = digit_8_images.mean(axis=0)  
+
+# Crear un histograma para comparar las medias de cada columna
+plt.figure(figsize=(12, 6))
+plt.bar(range(784), digit_1_means, alpha=0.5, label='Dígito 3', color='green')
+plt.bar(range(784), digit_3_means, alpha=0.5, label='Dígito 8', color='red')
+
+plt.title('Comparación de Medias de Píxeles entre Dígitos 3 y 8')
+plt.xlabel('Columnas de Píxeles')
+plt.ylabel('Valor Medio de Píxeles')
+plt.legend()
+plt.grid()
+plt.xlim(100, 720)
+ticks = np.arange(100, 720, 20) 
+plt.xticks(ticks=ticks)
+plt.show()
+
+# Hay numeros que son parecidos, ya que en media las intensidades de cada columna son similares, 
+# en este caso, vemos en los graficos que 3 y 8 son mas parecidos que 1 y 3 porque hay mas superposicion 

@@ -45,9 +45,9 @@ rf.fit(labels.drop(columns='labels'), labels['labels'])
 importances = rf.feature_importances_.reshape(28, 28)
 plt.imshow(importances, cmap='hot')
 plt.title('Importancia de cada pixel')
-interval = 2  
-plt.xticks(ticks=np.arange(0, 28, interval), labels=np.arange(0, 28, interval))
-plt.yticks(ticks=np.arange(0, 28, interval), labels=np.arange(0, 28, interval))
+intervalo = 2  
+plt.xticks(ticks=np.arange(0, 28, intervalo), labels=np.arange(0, 28, intervalo))
+plt.yticks(ticks=np.arange(0, 28, intervalo), labels=np.arange(0, 28, intervalo))
 plt.colorbar()
 plt.show()
 # Vemos en el grafico que ciertas columnas no tienen relevancia para distinguir las imagenes, de cero a 4 y de 24 a 28 puede ser descartado
@@ -62,12 +62,12 @@ filtro = importances[3:28, 5:23]
 
 # Graficar las importancias de cada pixel
 plt.imshow(filtro, cmap='hot')
-plt.title('Importancia de cada pixel (desde 5 a 22 en x y desde 3 a 27 en y)')
-interval = 2  
-plt.xticks(ticks=np.arange(0, filtro.shape[1], interval), 
-           labels=np.arange(5, 23, interval))  
-plt.yticks(ticks=np.arange(0, filtro.shape[0], interval), 
-           labels=np.arange(3, 28, interval))  
+plt.title('Importancia de cada pixel, desde 5 a 22 en x y desde 3 a 27 en y')
+intervalo = 2  
+plt.xticks(ticks=np.arange(0, filtro.shape[1], intervalo), 
+           labels=np.arange(5, 23, intervalo))  
+plt.yticks(ticks=np.arange(0, filtro.shape[0], intervalo), 
+           labels=np.arange(3, 28, intervalo))  
 plt.colorbar()
 plt.show()
 # Estos son los datos mas importantes para entrenar el modelo
@@ -75,22 +75,22 @@ plt.show()
 # 1b)
 
 # Filtrar las imágenes de los dígitos 1 y 3
-digit_1_images = labels[labels['labels'] == 1].iloc[:, 1:]  
-digit_3_images = labels[labels['labels'] == 3].iloc[:, 1:]
+digit_1_imagen = labels[labels['labels'] == 1].iloc[:, 1:]  
+digit_3_imagen = labels[labels['labels'] == 3].iloc[:, 1:]
 
 # Calcular la media de cada columna con un píxel, para cada dígito
 # Media por columna
-digit_1_means = digit_1_images.mean(axis=0)  
-digit_3_means = digit_3_images.mean(axis=0)  
+digit_1_media = digit_1_imagen.mean(axis=0)  
+digit_3_media = digit_3_imagen.mean(axis=0)  
 
 # Crear un histograma para comparar las medias de cada columna
 plt.figure(figsize=(12, 6))
-plt.bar(range(784), digit_1_means, alpha=0.5, label='Dígito 1', color='blue')
-plt.bar(range(784), digit_3_means, alpha=0.5, label='Dígito 3', color='red')
+plt.bar(range(784), digit_1_media, alpha=0.5, label='Dígito 1', color='blue')
+plt.bar(range(784), digit_3_media, alpha=0.5, label='Dígito 3', color='red')
 
-plt.title('Comparación de Medias de Píxeles entre Dígitos 1 y 3')
-plt.xlabel('Columnas de Píxeles')
-plt.ylabel('Valor Medio de Píxeles')
+plt.title('Comparación de medias de píxeles entre dígitos 1 y 3')
+plt.xlabel('Columnas de pixeles')
+plt.ylabel('Valor medio de pixeles')
 plt.legend()
 plt.grid()
 # Cambie el rango que muestro en el grafico porque los dema no tenian datos relevantes
@@ -100,20 +100,20 @@ plt.xticks(ticks=ticks)
 plt.show()
 
 # Filtrar las imágenes de los dígitos 3 y 8
-digit_3_images = labels[labels['labels'] == 3].iloc[:, 1:]  
-digit_8_images = labels[labels['labels'] == 8].iloc[:, 1:]
+digit_3_imagen = labels[labels['labels'] == 3].iloc[:, 1:]  
+digit_8_imagen = labels[labels['labels'] == 8].iloc[:, 1:]
 
-digit_1_means = digit_3_images.mean(axis=0)  
-digit_3_means = digit_8_images.mean(axis=0)  
+digit_1_media = digit_3_imagen.mean(axis=0)  
+digit_3_media = digit_8_imagen.mean(axis=0)  
 
 # Crear un histograma para comparar las medias de cada columna
 plt.figure(figsize=(12, 6))
-plt.bar(range(784), digit_1_means, alpha=0.5, label='Dígito 3', color='green')
-plt.bar(range(784), digit_3_means, alpha=0.5, label='Dígito 8', color='red')
+plt.bar(range(784), digit_1_media, alpha=0.5, label='Dígito 3', color='green')
+plt.bar(range(784), digit_3_media, alpha=0.5, label='Dígito 8', color='red')
 
-plt.title('Comparación de Medias de Píxeles entre Dígitos 3 y 8')
-plt.xlabel('Columnas de Píxeles')
-plt.ylabel('Valor Medio de Píxeles')
+plt.title('Comparación de medias de pixeles entre digitos 3 y 8')
+plt.xlabel('Columnas de pixeles')
+plt.ylabel('Valor medio de pixeles')
 plt.legend()
 plt.grid()
 plt.xlim(100, 720)

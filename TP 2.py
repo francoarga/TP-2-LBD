@@ -22,7 +22,7 @@ numeros = pd.read_csv(carpeta+'TMNIST_Data.csv')
 
 numeros.info()
 # No hay nulls
-numeros.dropna
+numeros = numeros.dropna
 #%% ------------------------------------------------------------------------------------------
 pixel = numeros.iloc[:, 2:]
 # Plotear la imagen del numero 

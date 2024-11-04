@@ -156,3 +156,14 @@ plt.title("Distribución de la desviación estandar de los píxeles en las image
 plt.xlabel("Desviación estándar")
 plt.ylabel("Cantidad")
 plt.show()
+#%% ------------------------------------------------------------------------------------------
+# 2a)
+
+# Dataframe con las imagenes correspondientes a ceros y unos
+cero_o_uno = labels[(labels['labels'] == 0 ) | (labels['labels'] == 1)].iloc[:, :-1]
+cero_o_uno.info()
+# Hay 5980 imagenes, de las cuales la mitad son ceros y la otra mitad uno, asi que podriamos decir que esta balanceado
+
+#%% ------------------------------------------------------------------------------------------
+
+# 2b)

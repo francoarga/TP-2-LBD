@@ -52,6 +52,7 @@ plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 1b)
 labels = numeros.iloc[:, 1:]
+
 # Filtro las imágenes de los dígitos 1 y 3
 digit_1_imagen = labels[labels['labels'] == 1].iloc[:, 1:]  
 digit_3_imagen = labels[labels['labels'] == 3].iloc[:, 1:]
@@ -131,8 +132,27 @@ plt.title("Scatterplot de medias de intensidad de píxeles para dígitos 3 y 8")
 plt.legend()
 plt.grid(True)
 plt.show()
-
+labels['media'] = labels.iloc[:, :-1].mean(axis=1)  
+# ------------------------------------------------------------------------------------------
+# Crear el gráfico de violín separando con la columna labels
+plt.figure(figsize=(12, 6))
+sns.violinplot(x="labels", y="media", data=labels)
+plt.title("Distribución de la intensidad promedio de los píxeles para cada numero")
+plt.xlabel("Número")
+plt.ylabel("Intensidad promedio de píxeles")
+plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 1c)
 
+cero = labels[labels['labels'] == 0]
 
+# Calcular la desviación estándar para cada píxel
+desviaciones_estandar = cero.iloc[:, :-1].std(axis=0)
+
+# Graficar el histograma de desviaciones estándar
+plt.figure(figsize=(10, 6))
+plt.hist(desviaciones_estandar, bins=50, color='skyblue', edgecolor='black')
+plt.title("Distribución de la desviación estandar de los píxeles en las imagenes del numero cero")
+plt.xlabel("Desviación estándar")
+plt.ylabel("Cantidad")
+plt.show()

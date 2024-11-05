@@ -205,3 +205,17 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 #%% ------------------------------------------------------------------------------------------
 
 # 2c)
+
+# Creación y entrenamiento del modelo
+model = KNeighborsClassifier(n_neighbors=3)
+model.fit(X_train, y_train)
+
+# Predicción en el conjunto de prueba
+y_pred = model.predict(X_test)  
+
+# Exactitud del modelo
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, y_pred))
+
+# Matriz de confusion
+print("Matriz de confusión:")
+print(metrics.confusion_matrix(y_test, y_pred))

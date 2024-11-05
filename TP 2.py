@@ -6,6 +6,7 @@
 # Importamos librerias
 from sklearn.datasets import load_iris
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -132,14 +133,27 @@ plt.title("Scatterplot de medias de intensidad de píxeles para dígitos 3 y 8")
 plt.legend()
 plt.grid(True)
 plt.show()
-labels['media'] = labels.iloc[:, :-1].mean(axis=1)  
+ 
 # ------------------------------------------------------------------------------------------
 # Crear el gráfico de violín separando con la columna labels
+labels['media'] = labels.iloc[:, :-1].mean(axis=1) 
 plt.figure(figsize=(12, 6))
 sns.violinplot(x="labels", y="media", data=labels)
 plt.title("Distribución de la intensidad promedio de los píxeles para cada numero")
 plt.xlabel("Número")
 plt.ylabel("Intensidad promedio de píxeles")
+plt.show()
+labels_promedio = labels.groupby('labels').mean().reset_index()
+
+# Convierte el DataFrame a formato largo para usar con Seaborn
+df_long = pd.melt(labels_promedio, id_vars='labels', var_name='pixel', value_name='intensidad_promedio')
+
+# Grafico de violín
+plt.figure(figsize=(12, 6))
+sns.violinplot(x='labels', y='intensidad_promedio', data=df_long)
+plt.title('Distribución de la intensidad promedio de los pixeles por numero')
+plt.xlabel('Numero')
+plt.ylabel('Valor promedio')
 plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 1c)
@@ -156,6 +170,18 @@ plt.title("Distribución de la desviación estandar de los píxeles en las image
 plt.xlabel("Desviación estándar")
 plt.ylabel("Cantidad")
 plt.show()
+
+# Calcular el promedio para cada píxel
+desviaciones_estandar = cero.iloc[:, :-1].mean(axis=0)
+
+# Graficar el histograma con promedio
+plt.figure(figsize=(10, 6))
+plt.hist(desviaciones_estandar, bins=50, color='skyblue', edgecolor='black')
+plt.title("Distribución del promedio de los píxeles en las imagenes del numero cero")
+plt.xlabel("Promedio")
+plt.ylabel("Cantidad")
+plt.show()
+
 #%% ------------------------------------------------------------------------------------------
 # 2a)
 
@@ -167,3 +193,15 @@ cero_o_uno.info()
 #%% ------------------------------------------------------------------------------------------
 
 # 2b)
+
+# Separo el dataframe en datos de train y test
+X = cero_o_uno.drop(columns=['labels'])  
+y = cero_o_uno['labels']  
+
+# Dividir en conjuntos, x intensidades, y etiquetas, 80%  para train
+# 20% para para test, respetando la proprcion de mitad y mitad
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratify=y, random_state=42)
+
+#%% ------------------------------------------------------------------------------------------
+
+# 2c)

@@ -342,4 +342,40 @@ plt.title('Exactitud del modelo de KNN')
 plt.xlabel('Cantidad de vecinos (k)')
 plt.ylabel('Exactitud (accuracy)')
 plt.show()
+
+#%%
+
+#3) a)
+# Separamos en desarrollo y validacion 
+X_dev, X_eval, y_dev, y_eval = train_test_split(X,y,random_state=1,test_size=0.1)
+
+#b)
+
+alturas = [1,2,3,5,10]
+nsplits = 5
+kf = KFold(n_splits=nsplits)
+
+resultados = np.zeros((nsplits, len(alturas)))
+# una fila por cada fold, una columna por cada modelo
+
+for i, (train_index, test_index) in enumerate(kf.split(X_dev)):
+
+    kf_X_train, kf_X_test = X_dev.iloc[train_index], X_dev.iloc[test_index]
+    kf_y_train, kf_y_test = y_dev.iloc[train_index], y_dev.iloc[test_index]
+    
+    for j, hmax in enumerate(alturas):
+        
+        arbol = tree.DecisionTreeClassifier(max_depth = hmax)
+        arbol.fit(kf_X_train, kf_y_train)
+        pred = arbol.predict(kf_X_test)
+        
+        cm = confusion_matrix(kf_y_test.values, pred)
+        tp, fn, fp, tn = cm.ravel()
+        score = (tp+tn) / (tp+tn+fp+fn)
+        
+        resultados[i, j] = score
+
+# Mostrar los resultados de exactitud por cada combinación de pliegue y max_depth
+for j, hmax in enumerate(alturas):
+    print(f"Exactitud promedio para max_depth={hmax}: {np.mean(resultados[:, j]):.4f}")
            

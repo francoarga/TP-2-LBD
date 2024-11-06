@@ -272,7 +272,7 @@ for combinacion in combinaciones_2_atributos:
 # Con mas de 3 atributos da error porque hay demasiada cantidad de combinaciones
 # Hay mejor exactitud con 3 atributos
 #%%
-
+# Obtengo las primeras 4 combinaciones de 4 atributos, pero no varian casi nada.. sirve?
 combinaciones_4_atributos = list(islice(combinations(X.columns, 4), 4))
 
 for combinacion in combinaciones_4_atributos:

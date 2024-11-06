@@ -265,3 +265,5 @@ for combinacion in combinaciones_2_atributos:
     print(metrics.confusion_matrix(y_test, y_pred))
     print("-" * 50)
 
+# Con mas de 3 atributos da error porque hay demasiada cantidad de combinaciones
+# Hay mejor exactitud con 3 atributos

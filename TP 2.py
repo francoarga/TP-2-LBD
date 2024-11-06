@@ -214,7 +214,7 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 # Genero todas las combinaciones posibles de 3 atributos de X
 todas_combinaciones_3_atributos = list(combinations(X.columns, 3))
 
-# Selecciono 4 combinaciones aleatorias porque antes solo variaba el ultimo 
+# Selecciono 4 combinaciones aleatorias porque sino varia solo el ultimo 
 combinaciones_3_atributos = random.sample(todas_combinaciones_3_atributos, 4)
 
 # Evaluar cada combinación de atributos

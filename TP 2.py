@@ -271,3 +271,26 @@ for combinacion in combinaciones_2_atributos:
 
 # Con mas de 3 atributos da error porque hay demasiada cantidad de combinaciones
 # Hay mejor exactitud con 3 atributos
+#%%
+
+combinaciones_4_atributos = list(islice(combinations(X.columns, 4), 4))
+
+for combinacion in combinaciones_4_atributos:
+    # Seleccionar los atributos del conjunto de entrenamiento y prueba
+    X_train_comb = X_train[list(combinacion)]
+    X_test_comb = X_test[list(combinacion)]
+    
+    # Crear y entrenar el modelo KNN con k=3
+    model = KNeighborsClassifier(n_neighbors=3)
+    model.fit(X_train_comb, y_train)
+    
+    # Predicción en el conjunto de prueba
+    y_pred = model.predict(X_test_comb)
+    
+    # Exactitud del modelo
+    print("Exactitud del modelo:", metrics.accuracy_score(y_test, y_pred))
+    
+    # Matriz de confusión
+    print(f"Matriz de confusión con atributos {combinacion}:")
+    print(metrics.confusion_matrix(y_test, y_pred))
+    print("-" * 50)

@@ -209,16 +209,57 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 
 # 2c)
 
-# Creación y entrenamiento del modelo
-model = KNeighborsClassifier(n_neighbors=3)
-model.fit(X_train, y_train)
+# Genero todas las combinaciones posibles de 3 atributos de X
+todas_combinaciones_3_atributos = list(combinations(X.columns, 3))
 
-# Predicción en el conjunto de prueba
-y_pred = model.predict(X_test)  
+# Selecciono 4 combinaciones aleatorias porque antes solo variaba el ultimo 
+combinaciones_3_atributos = random.sample(todas_combinaciones_3_atributos, 4)
 
-# Exactitud del modelo
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, y_pred))
+# Evaluar cada combinación de atributos
+for combinacion in combinaciones_3_atributos:
+    # Seleccionar los atributos del conjunto de entrenamiento y prueba
+    X_train_comb = X_train[list(combinacion)]
+    X_test_comb = X_test[list(combinacion)]
+    
+    # Crear y entrenar el modelo KNN con k=3
+    model = KNeighborsClassifier(n_neighbors=3)
+    model.fit(X_train_comb, y_train)
+    
+    # Predicción en el conjunto de prueba
+    y_pred = model.predict(X_test_comb)
+    
+    # Exactitud del modelo
+    print("Exactitud del modelo:", metrics.accuracy_score(y_test, y_pred))
+    
+    # Matriz de confusión
+    print(f"Matriz de confusión con atributos {combinacion}:")
+    print(metrics.confusion_matrix(y_test, y_pred))
+    print("-" * 50)
 
-# Matriz de confusion
-print("Matriz de confusión:")
-print(metrics.confusion_matrix(y_test, y_pred))
+#%%
+    
+# Pruebo con 2 atributos
+
+combinaciones_2_atributos = random.sample(list(combinations(X.columns, 2)), 4)
+
+# Evaluar cada combinación de atributos
+for combinacion in combinaciones_2_atributos:
+    # Seleccionar los atributos del conjunto de entrenamiento y prueba
+    X_train_comb = X_train[list(combinacion)]
+    X_test_comb = X_test[list(combinacion)]
+    
+    # Crear y entrenar el modelo KNN con k=3
+    model = KNeighborsClassifier(n_neighbors=3)
+    model.fit(X_train_comb, y_train)
+    
+    # Predicción en el conjunto de prueba
+    y_pred = model.predict(X_test_comb)
+    
+    # Exactitud del modelo
+    print("Exactitud del modelo:", metrics.accuracy_score(y_test, y_pred))
+    
+    # Matriz de confusión
+    print(f"Matriz de confusión con atributos {combinacion}:")
+    print(metrics.confusion_matrix(y_test, y_pred))
+    print("-" * 50)
+

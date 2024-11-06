@@ -4,10 +4,11 @@
 #%% ------------------------------------------------------------------------------------------
 
 # Importamos librerias
-from sklearn.datasets import load_iris
+
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import train_test_split
 from sklearn.neighbors import KNeighborsClassifier
+from sklearn.metrics import confusion_matrix
 from sklearn.model_selection import train_test_split
 from sklearn import metrics
 import matplotlib.pyplot as plt
@@ -294,3 +295,51 @@ for combinacion in combinaciones_4_atributos:
     print(f"Matriz de confusión con atributos {combinacion}:")
     print(metrics.confusion_matrix(y_test, y_pred))
     print("-" * 50)
+
+#%% ------------------------------------------------------------------------------------------
+# 2d)
+
+Nrep = 1
+valores_k = range(1, 20)
+valores_n = [3, 10, 50, 100]
+
+# Inicialización de matrices para almacenar resultados de test y entrenamiento
+resultados_test = np.zeros((len(valores_n), len(valores_k)))
+resultados_train = np.zeros((len(valores_n), len(valores_k)))
+
+for i, n_atributos in enumerate(valores_n):
+    for rep in range(Nrep):
+        # Selección de atributos
+        columnas_aleatorias = X.sample(n=n_atributos, axis=1, random_state=rep)  
+        X_selected = columnas_aleatorias.values
+        X_train, X_test, y_train, y_test = train_test_split(X_selected, y, test_size=0.2, random_state=rep)
+        for j, k in enumerate(valores_k):
+            # Creación y ajuste del modelo KNN con k vecinos
+            model = KNeighborsClassifier(n_neighbors=k)
+            model.fit(X_train, y_train)
+            Y_pred = model.predict(X_test)
+            Y_pred_train = model.predict(X_train)
+            
+            # Exactitud
+            acc_test = metrics.accuracy_score(y_test, Y_pred)
+            acc_train = metrics.accuracy_score(y_train, Y_pred_train)
+            
+            # Almacena los resultados de exactitud
+            resultados_test[i, j] += acc_test / Nrep  
+            resultados_train[i, j] += acc_train / Nrep  
+            
+            # Matriz de confusión para el conjunto de prueba
+            conf_matrix_test = confusion_matrix(y_test, Y_pred)
+            print(f"Matriz de confusión para n_atributos={n_atributos}, k={k}, repetición {rep+1}:\n{conf_matrix_test}\n")
+
+# Graficar promedios de exactitud para cada cantidad de atributos 
+for i, n_atributos in enumerate(valores_n):
+    plt.plot(valores_k, resultados_train[i, :], label=f'Train (n={n_atributos})')
+    plt.plot(valores_k, resultados_test[i, :], label=f'Test (n={n_atributos})')
+
+plt.legend()
+plt.title('Exactitud del modelo de KNN')
+plt.xlabel('Cantidad de vecinos (k)')
+plt.ylabel('Exactitud (accuracy)')
+plt.show()
+           

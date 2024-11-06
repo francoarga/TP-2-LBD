@@ -242,7 +242,11 @@ for combinacion in combinaciones_3_atributos:
     
 # Pruebo con 2 atributos
 
-combinaciones_2_atributos = random.sample(list(combinations(X.columns, 2)), 4)
+# Genero todas las combinaciones posibles de 2 atributos
+todas_combinaciones_2_atributos = list(combinations(X.columns, 2))
+
+# Selecciono 4 combinaciones aleatorias 
+combinaciones_2_atributos = random.sample(todas_combinaciones_2_atributos, 4)
 
 # Evaluar cada combinación de atributos
 for combinacion in combinaciones_2_atributos:

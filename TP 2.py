@@ -349,6 +349,7 @@ plt.show()
 # Separamos en desarrollo y validacion 
 X_dev, X_eval, y_dev, y_eval = train_test_split(X,y,random_state=1,test_size=0.1)
 
+#%%
 #b)
 
 alturas = [1,2,3,5,10]
@@ -378,4 +379,18 @@ for i, (train_index, test_index) in enumerate(kf.split(X_dev)):
 # Mostrar los resultados de exactitud por cada combinación de pliegue y max_depth
 for j, hmax in enumerate(alturas):
     print(f"Exactitud promedio para max_depth={hmax}: {np.mean(resultados[:, j]):.4f}")
-           
+#%%
+#c)
+#Definimos los hiperparámetros
+
+max_depth_values = [1,2,3,5,7,10]
+min_samples_split_values = [2, 5, 10]
+min_samples_leaf_values = [1, 2, 4]
+
+# Configuramos la validación cruzada
+nsplits = 5
+kf = KFold(n_splits= nsplits)
+
+resultados = []
+
+# Consultar como hacer el arbol, si con la combinacion de los hiperparamtros o distintos con cada uno

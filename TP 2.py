@@ -324,3 +324,22 @@ kf = KFold(n_splits= nsplits)
 resultados = []
 
 # Consultar como hacer el arbol, si con la combinacion de los hiperparamtros o distintos con cada uno
+
+#%% entreno el modelo elegido en el conjunto dev entero
+arbol_elegido = tree.DecisionTreeClassifier(max_depth = 1)
+arbol_elegido.fit(X_dev, y_dev)
+y_pred = arbol_elegido.predict(X_dev)
+
+cm = confusion_matrix(y_dev.values, y_pred)
+tp, fn, fp, tn = cm.ravel()
+score_arbol_elegido_dev = (tp+tn)/(tp+tn+fp+fn)
+print('Exactitud desarrollo:', score_arbol_elegido_dev)
+
+# pruebo el modelo elegid y entrenado en el conjunto eval
+y_pred_eval = arbol_elegido.predict(X_eval)       
+cm = confusion_matrix(y_eval.values, y_pred_eval)
+tp, fn, fp, tn = cm.ravel()
+score_arbol_elegido_eval = (tp+tn)/(tp+tn+fp+fn)
+print('Exactitud held out:', score_arbol_elegido_eval)
+
+# falta hacer la matriz de confusion 10x10

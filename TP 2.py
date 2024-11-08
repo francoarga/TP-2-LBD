@@ -42,7 +42,7 @@ plt.show()
 # Los atributos mas relevantes son los que generan la imagen, labels podria ser usado para para clasificar las filas por numerom, el nombre de
 # la fuente podria ser descartada, y quiza algunos valores que conforman el fondo de la imagen, donde el numero no esta presente
 #%% ------------------------------------------------------------------------------------------
-# 1a)
+# 1a)    plotear promedios
 # Promedio de cada pixel
 promedio_de_cada_pixel = pixel.mean() 
 # Grafico de barras para la intensidad promedio de cada pixel 
@@ -57,7 +57,7 @@ plt.show()
 
 
 #%% ------------------------------------------------------------------------------------------
-# 1b)
+# 1b) plotear la diferencia de los promedios (valor absoluto)
 labels = numeros.iloc[:, 1:]
 
 # Filtro las imágenes de los dígitos 1 y 3

@@ -22,7 +22,7 @@ import random
 #%% ------------------------------------------------------------------------------------------
 
 # Importamos el dataset
-carpeta = "~/Downloads/"
+carpeta = "C:/Users/franc/Documents/Facultad/Laboratorio de datos/TP - 2/"
 numeros = pd.read_csv(carpeta+'TMNIST_Data.csv')
 #%% ------------------------------------------------------------------------------------------
 # Analisis exploratorio
@@ -41,7 +41,7 @@ plt.show()
 # la columna labels que indica de que numero se trata,
 # Los atributos mas relevantes son los que generan la imagen, labels podria ser usado para para clasificar las filas por numerom, el nombre de
 # la fuente podria ser descartada, y quiza algunos valores que conforman el fondo de la imagen, donde el numero no esta presente
-#%% ------------------------------------------------------------------------------------------
+
 #%% ------------------------------------------------------------------------------------------
 # 1a)
 # Promedio de cada pixel
@@ -141,40 +141,98 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 #%% ------------------------------------------------------------------------------------------
 
 # 2c)
-
+# Entrenamiento con tres atributos, tres conjuntos diferentes
 model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['156', '438', '514']], y_train)  # Entrenamiento solo con las columnas seleccionadas
+model.fit(X_train[['156', '438', '514']], y_train)  
 
-# Paso 4: Realizar predicciones
-Y_pred = model.predict(X_test[['156', '438', '514']])  # Predicción solo con las columnas seleccionadas
-
-# Paso 5: Evaluar el modelo
+# Predicción solo con las columnas seleccionadas
+Y_pred = model.predict(X_test[['156', '438', '514']])  
 print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
 
 # Matriz de confusión
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['141', '300', '700']], y_train)  
+Y_pred = model.predict(X_test[['141', '300', '700']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['90', '516', '460']], y_train)  
+Y_pred = model.predict(X_test[['90', '516', '460']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
 conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
 print("Matriz de confusión:")
 print(conf_matrix)
 #%% ------------------------------------------------------------------------------------------
+# Entrenamiento con dos atributos, tres conjuntos diferentes
 model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['141', '300', '700']], y_train)  # Entrenamiento solo con las columnas seleccionadas
-
-# Paso 4: Realizar predicciones
-Y_pred = model.predict(X_test[['141', '300', '700']])  # Predicción solo con las columnas seleccionadas
-
-# Paso 5: Evaluar el modelo
+model.fit(X_train[['100', '230']], y_train)  
+Y_pred = model.predict(X_test[['100', '230']])  
 print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
 
-# Matriz de confusión
 conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
 print("Matriz de confusión:")
 print(conf_matrix)
-# Completar
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['695', '75']], y_train)  
+Y_pred = model.predict(X_test[['695', '75']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['457', '243']], y_train)  
+Y_pred = model.predict(X_test[['457', '243']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+#%% ------------------------------------------------------------------------------------------
+# Entrenamiento con cuatro atributos, tres conjuntos diferentes
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['100', '230', '22', '685']], y_train)  
+Y_pred = model.predict(X_test[['100', '230', '22', '685']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['547', '354', '46', '352']], y_train)  
+Y_pred = model.predict(X_test[['547', '354', '46', '352']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
+model = KNeighborsClassifier(n_neighbors=5)
+model.fit(X_train[['685', '54', '546', '435']], y_train)  
+Y_pred = model.predict(X_test[['685', '54', '546', '435']])  
+print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
+
+conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
+print("Matriz de confusión:")
+print(conf_matrix)
+
 #%% ------------------------------------------------------------------------------------------
 # 2d)
 
 Nrep = 1
-valores_k = range(1, 20)
+valores_k = [3, 5, 7, 10]
 valores_n = [3, 10, 50, 100]
 
 # Inicialización de matrices para almacenar resultados de test y entrenamiento

@@ -17,7 +17,7 @@ import random
 
 #%% ------------------------------------------------------------------------------------------
 # Importamos el dataset
-carpeta = "Descargas/"
+carpeta = "descargas/"
 numeros = pd.read_csv(carpeta+'TMNIST_Data.csv')
 #%% ------------------------------------------------------------------------------------------
 # Analisis exploratorio
@@ -38,50 +38,149 @@ plt.show()
 
 #%% ------------------------------------------------------------------------------------------
 # 1a)
+
 # Promedio de cada pixel
 promedio_de_cada_pixel = pixel.mean() 
 pixel = numeros.iloc[:, 2:]
 # Plotear la imagen del numero 
 img = np.array(promedio_de_cada_pixel).reshape((28,28)) 
 plt.imshow(img, cmap='gray') 
+plt.title('Intensidad promedio de los pixeles en todas las imagenes')
 plt.show() 
+
+# Desviacion estandar de los pixeles
+desviaciones = pixel.std()
+pixel = numeros.iloc[:, 2:]
+img = np.array(desviaciones).reshape((28,28)) 
+plt.imshow(img, cmap='gray') 
+plt.title('Desviacion estandar de la intensidad de los pixeles en todas las imagenes')
+plt.show() 
+
+# varianza de cada pixel
+varianzas = pixel.var()
+pixel = numeros.iloc[:, 2:]
+img = np.array(varianzas).reshape((28,28)) 
+plt.imshow(img, cmap='gray') 
+plt.title('Varianza de la intensidad de los pixeles de todas las imagenes')
+plt.show() 
+
+
+#%% ------------------------------------------------------------------------------------------
+# Recortar cada imagen
+def recortar_imagen(fila):
+    img = np.array(fila[2:]).reshape((28,28))  
+    return img[2:-2, 2:-2].flatten()  
+
+# Aplicar la funcion a cada fila
+img_recortadas = numeros.apply(recortar_imagen, axis=1)
+#  nuevo DataFrame
+img_recortadas = pd.DataFrame(img_recortadas.tolist())
+# Agregar labels
+img_recortadas['labels'] = numeros['labels']
+
+# Imagen recortada 
+img_recortada = np.array(img_recortadas.iloc[0, 1:]).reshape((24,24))  
+plt.imshow(img_recortada, cmap='gray')
+plt.show()
+
+# Promedio de cada pixel
+promedio_de_cada_pixel = img_recortadas.iloc[:, :-1].mean()  
+img = np.array(promedio_de_cada_pixel).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Intensidad promedio de los pixeles en todas las imagenes')
+plt.show()
+
+# Desviacion estandar de los pixeles
+desviaciones = img_recortadas.iloc[:, :-1].std()  
+img = np.array(desviaciones).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Desviación estándar de la intensidad de los pixeles en todas las imagenes')
+plt.show()
+
+# Varianza de cada pixel
+varianzas = img_recortadas.iloc[:, :-1].var()  
+img = np.array(varianzas).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Varianza de la intensidad de los pixeles de todas las imagenes')
+plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 1b)
-labels = numeros.iloc[:, 1:]
 
 # Filtro las imágenes de los dígitos 1 y 3
-uno_y_tres = labels[(labels['labels'] == 1 ) | (labels['labels'] == 3)].iloc[:, 1:]  
+uno_y_tres = img_recortadas[(img_recortadas['labels'] == 1 ) | (img_recortadas['labels'] == 3)].iloc[:, 1:]  
 
-promedio_de_cada_pixel = uno_y_tres.mean() 
-pixel = numeros.iloc[:, 2:]
-# Plotear la imagen del numero 
-img = np.array(promedio_de_cada_pixel).reshape((28,28)) 
-plt.imshow(img, cmap='gray') 
-plt.show() 
+# Promedio de cada pixel
+promedio_de_cada_pixel = uno_y_tres.mean()  
+img = np.array(promedio_de_cada_pixel).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Intensidad promedio de los pixeles de las imagenes de 1 y 3')
+plt.show()
+
+# Desviacion estandar de los pixeles
+desviaciones = uno_y_tres.std()  
+img = np.array(desviaciones).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Desviación estándar de la intensidad de los pixeles de las imagenes de 1 y 3')
+plt.show()
+
+# Varianza de cada pixel
+varianzas = uno_y_tres.var()  
+img = np.array(varianzas).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Varianza de la intensidad de los pixeles de las imagenes de 1 y 3')
+plt.show()
 
 # Filtro las imágenes de los dígitos 3 y 8
-tres_y_ocho = labels[(labels['labels'] == 3 ) | (labels['labels'] == 8)].iloc[:, 1:]  
+tres_y_ocho = img_recortadas[(img_recortadas['labels'] == 3 ) | (img_recortadas['labels'] == 8)].iloc[:, 1:]  
 
-promedio_de_cada_pixel = tres_y_ocho.mean() 
-pixel = numeros.iloc[:, 2:]
-# Plotear la imagen del numero 
-img = np.array(promedio_de_cada_pixel).reshape((28,28)) 
-plt.imshow(img, cmap='gray') 
-plt.show() 
+# Promedio de cada pixel
+promedio_de_cada_pixel = tres_y_ocho.mean()  
+img = np.array(promedio_de_cada_pixel).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Intensidad promedio de los pixeles de las imagenes de 3 y 8')
+plt.show()
+
+# Desviacion estandar de los pixeles
+desviaciones = tres_y_ocho.std()  
+img = np.array(desviaciones).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Desviación estándar de la intensidad de los pixeles de las imagenes de 3 y 8')
+plt.show()
+
+# Varianza de cada pixel
+varianzas = tres_y_ocho.var()  
+img = np.array(varianzas).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Varianza de la intensidad de los pixeles de las imagenes de 3 y 8')
+plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 1c)
-cero = labels[labels['labels'] == 0].iloc[:, 1:]  
+cero = img_recortadas[img_recortadas['labels'] == 0].iloc[:, 1:]  
 
-promedio_de_cada_pixel = cero.mean() 
-pixel = numeros.iloc[:, 2:]
-# Plotear la imagen del numero 
-img = np.array(promedio_de_cada_pixel).reshape((28,28)) 
-plt.imshow(img, cmap='gray') 
-plt.show() 
+# Promedio de cada pixel
+promedio_de_cada_pixel = cero.mean()  
+img = np.array(promedio_de_cada_pixel).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Intensidad promedio de los pixeles del numero cero')
+plt.show()
+
+# Desviacion estandar de los pixeles
+desviaciones = cero.std()  
+img = np.array(desviaciones).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Desviación estándar de la intensidad de los pixeles del numero cero')
+plt.show()
+
+# Varianza de cada pixel
+varianzas = cero.var()  
+img = np.array(varianzas).reshape((24, 24))  
+plt.imshow(img, cmap='gray')
+plt.title('Varianza de la intensidad de los pixeles del numero cero')
+plt.show()
 #%% ------------------------------------------------------------------------------------------
 # 2a)
 # Dataframe con las imagenes correspondientes a ceros y unos
-cero_o_uno = labels[(labels['labels'] == 0 ) | (labels['labels'] == 1)]
+cero_o_uno = img_recortadas[(img_recortadas['labels'] == 0 ) | (img_recortadas['labels'] == 1)]
 cero_o_uno.info()
 # Hay 5980 imagenes, de las cuales la mitad son ceros y la otra mitad uno, asi que podriamos decir que esta balanceado
 
@@ -98,9 +197,9 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 # 2c)
 # Entrenamiento con tres atributos, tres conjuntos diferentes
 model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['156', '438', '514']], y_train)  
+model.fit(X_train[['156', '438', '574']], y_train)  
 # Predicción solo con las columnas seleccionadas
-Y_pred = model.predict(X_test[['156', '438', '514']])  
+Y_pred = model.predict(X_test[['156', '438', '574']])  
 print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
 # Matriz de confusión
 conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
@@ -108,8 +207,8 @@ print("Matriz de confusión:")
 print(conf_matrix)
 # otros conjuntos
 model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['141', '300', '700']], y_train)  
-Y_pred = model.predict(X_test[['141', '300', '700']])  
+model.fit(X_train[['141', '300', '500']], y_train)  
+Y_pred = model.predict(X_test[['141', '300', '500']])  
 print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
 conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
 print("Matriz de confusión:")

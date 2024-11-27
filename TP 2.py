@@ -17,7 +17,7 @@ import random
 
 #%% ------------------------------------------------------------------------------------------
 # Importamos el dataset
-carpeta = "descargas/"
+carpeta = "C:/Users/franc/Documents/Facultad/Laboratorio de datos/TP - 2/"
 numeros = pd.read_csv(carpeta+'TMNIST_Data.csv')
 #%% ------------------------------------------------------------------------------------------
 # Analisis exploratorio
@@ -195,82 +195,85 @@ X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, stratif
 
 #%% ------------------------------------------------------------------------------------------
 # 2c)
-# Entrenamiento con tres atributos, tres conjuntos diferentes
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['156', '438', '574']], y_train)  
-# Predicción solo con las columnas seleccionadas
-Y_pred = model.predict(X_test[['156', '438', '574']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-# Matriz de confusión
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
-# otros conjuntos
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['141', '300', '500']], y_train)  
-Y_pred = model.predict(X_test[['141', '300', '500']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Función para graficar matrices de confusión con exactitud
+def graficar_matriz_confusion(cm, exactitud, grupo, index):
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt="d", cmap='Blues', xticklabels=range(2), yticklabels=range(2))
+    plt.title(f'Matriz de confusión {grupo}\nExactitud: {exactitud:.4f}')
+    plt.xlabel('Predicción')
+    plt.ylabel('Valor real')
+    plt.tight_layout()
+    plt.show()
 
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['90', '516', '460']], y_train)  
-Y_pred = model.predict(X_test[['90', '516', '460']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
-#%% ------------------------------------------------------------------------------------------
-# Entrenamiento con dos atributos, tres conjuntos diferentes
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['100', '230']], y_train)  
-Y_pred = model.predict(X_test[['100', '230']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Almacenar resultados
+exactitudes = []
+grupos = []
+matrices_confusion = []
 
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['695', '75']], y_train)  
-Y_pred = model.predict(X_test[['695', '75']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Registrar resultados y matrices de confusión
+def registrar_resultados(grupo, exactitud, cm):
+    grupos.append(grupo)
+    exactitudes.append(exactitud)
+    matrices_confusion.append(cm)
 
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['457', '243']], y_train)  
-Y_pred = model.predict(X_test[['457', '243']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
-#%% ------------------------------------------------------------------------------------------
-# Entrenamiento con cuatro atributos, tres conjuntos diferentes
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['100', '230', '22', '685']], y_train)  
-Y_pred = model.predict(X_test[['100', '230', '22', '685']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Entrenamiento con tres atributos
+conjuntos_tres_atributos = [
+    [156, 438, 566],
+    [141, 300, 500],
+    [90, 516, 460]
+]
+for grupo in conjuntos_tres_atributos:
+    model = KNeighborsClassifier(n_neighbors=5)
+    model.fit(X_train[grupo], y_train)
+    Y_pred = model.predict(X_test[grupo])
+    acc = metrics.accuracy_score(y_test, Y_pred)
+    cm = confusion_matrix(y_test, Y_pred, labels=range(2))  
+    registrar_resultados(f"{grupo}", acc, cm)
 
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['547', '354', '46', '352']], y_train)  
-Y_pred = model.predict(X_test[['547', '354', '46', '352']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Entrenamiento con dos atributos
+conjuntos_dos_atributos = [
+    [100, 230],
+    [134, 75],
+    [457, 243]
+]
+for grupo in conjuntos_dos_atributos:
+    model = KNeighborsClassifier(n_neighbors=5)
+    model.fit(X_train[grupo], y_train)
+    Y_pred = model.predict(X_test[grupo])
+    acc = metrics.accuracy_score(y_test, Y_pred)
+    cm = confusion_matrix(y_test, Y_pred, labels=range(2))  
+    registrar_resultados(f"{grupo}", acc, cm)
 
-model = KNeighborsClassifier(n_neighbors=5)
-model.fit(X_train[['685', '54', '546', '435']], y_train)  
-Y_pred = model.predict(X_test[['685', '54', '546', '435']])  
-print("Exactitud del modelo:", metrics.accuracy_score(y_test, Y_pred))
-conf_matrix = metrics.confusion_matrix(y_test, Y_pred)
-print("Matriz de confusión:")
-print(conf_matrix)
+# Entrenamiento con cuatro atributos
+conjuntos_cuatro_atributos = [
+    [100, 230, 22, 357],
+    [547, 354, 46, 352],
+    [257, 54, 546, 435]
+]
+for grupo in conjuntos_cuatro_atributos:
+    model = KNeighborsClassifier(n_neighbors=5)
+    model.fit(X_train[grupo], y_train)
+    Y_pred = model.predict(X_test[grupo])
+    acc = metrics.accuracy_score(y_test, Y_pred)
+    cm = confusion_matrix(y_test, Y_pred, labels=range(2))  
+    registrar_resultados(f"{grupo}", acc, cm)
+
+# Graficar exactitudes
+plt.figure(figsize=(10, 6))
+x = range(len(grupos))  
+plt.plot(x, exactitudes, marker='o', linestyle='-', color='black', label='Exactitud')
+plt.xticks(x, grupos, rotation=45, ha='right')
+plt.xlabel('Grupos de atributos')
+plt.ylabel('Exactitud')
+plt.title('Exactitud en función de los grupos de atributos seleccionados')
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.legend()
+plt.tight_layout()
+plt.show()
+
+# Graficar las matrices de confusión con la exactitud en cada una
+for index, cm in enumerate(matrices_confusion):
+    graficar_matriz_confusion(cm, exactitudes[index], grupos[index], index)
 
 #%% ------------------------------------------------------------------------------------------
 # 2d)
@@ -282,12 +285,24 @@ valores_n = [3, 10, 50, 100]
 resultados_test = np.zeros((len(valores_n), len(valores_k)))
 resultados_train = np.zeros((len(valores_n), len(valores_k)))
 
+# graficar la matriz de confusión
+def graficar_matriz_confusion(cm, exactitud, n_atributos, k, rep):
+    plt.figure(figsize=(8, 6))
+    sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=range(2), yticklabels=range(2))
+    plt.title(f'Matriz de confusión para n_atributos={n_atributos}, k={k}, repetición {rep+1}\nExactitud: {exactitud:.4f}')
+    plt.xlabel('Predicciones')
+    plt.ylabel('Valor real')
+    plt.tight_layout()
+    plt.show()
+
+# entrenar y evaluar el modelo
 for i, n_atributos in enumerate(valores_n):
     for rep in range(Nrep):
         # Selección de atributos
-        columnas_aleatorias = X.sample(n=n_atributos, axis=1, random_state=rep)  
+        columnas_aleatorias = X.sample(n=n_atributos, axis=1, random_state=rep)
         X_selected = columnas_aleatorias.values
         X_train, X_test, y_train, y_test = train_test_split(X_selected, y, test_size=0.2, random_state=rep)
+        
         for j, k in enumerate(valores_k):
             # Creación y ajuste del modelo KNN con k vecinos
             model = KNeighborsClassifier(n_neighbors=k)
@@ -299,15 +314,17 @@ for i, n_atributos in enumerate(valores_n):
             acc_test = metrics.accuracy_score(y_test, Y_pred)
             acc_train = metrics.accuracy_score(y_train, Y_pred_train)
             
-            # guardo los resultados de exactitud
+            # Guardar los resultados de exactitud
             resultados_test[i, j] += acc_test / Nrep  
             resultados_train[i, j] += acc_train / Nrep  
             
             # Matriz de confusión para el conjunto de prueba
             conf_matrix_test = confusion_matrix(y_test, Y_pred)
-            print(f"Matriz de confusión para n_atributos={n_atributos}, k={k}, repetición {rep+1}:\n{conf_matrix_test}\n")
+            
+            # Graficar la matriz de confusión con la exactitud en el título
+            graficar_matriz_confusion(conf_matrix_test, acc_test, n_atributos, k, rep)
 
-# Graficar promedios de exactitud para cada cantidad de atributos 
+# Graficar promedios de exactitud para cada cantidad de atributos
 for i, n_atributos in enumerate(valores_n):
     plt.plot(valores_k, resultados_train[i, :], label=f'Train (n={n_atributos})')
     plt.plot(valores_k, resultados_test[i, :], label=f'Test (n={n_atributos})')
@@ -316,19 +333,19 @@ plt.legend()
 plt.title('Exactitud del modelo de KNN')
 plt.xlabel('Cantidad de vecinos (k)')
 plt.ylabel('Exactitud (accuracy)')
-plt.savefig(carpeta + 'exactitud_knn.png')
+plt.savefig('exactitud_knn.png')
 plt.show()
 
 #%% ------------------------------------------------------------------------------------------
-
-X = labels.drop(columns=['labels'])  
-y = labels['labels']  
-
 # 3a)
+
+X = img_recortadas.drop(columns=['labels'])  
+y = img_recortadas['labels']  
+
 # Separamos en desarrollo y validacion 
 X_dev, X_eval, y_dev, y_eval = train_test_split(X,y,random_state=1,test_size=0.1)
 
-#%%
+#%% ------------------------------------------------------------------------------------------
 # 3b)
 
 # Definir las profundidades del árbol y el número de splits
@@ -364,19 +381,33 @@ for i, (train_index, test_index) in enumerate(kf.split(X_dev)):
         # Guardo el resultado de exactitud
         resultados[i, j] = score
 
-# Matrices de confusión  para cada profundidad
+# Matrices de confusión para cada profundidad
 for hmax in alturas:
     print(f"\nMatriz de Confusión Acumulada para max_depth={hmax}:")
     print(matrices_confusion_por_altura[hmax])
 
 # Resultados de exactitud promedio para cada profundidad
+exactitudes_promedio = []
 for j, hmax in enumerate(alturas):
-    print(f"Exactitud promedio para max_depth={hmax}: {np.mean(resultados[:, j]):.4f}")
+    promedio = np.mean(resultados[:, j])
+    exactitudes_promedio.append(promedio)
+    print(f"Exactitud promedio para max_depth={hmax}: {promedio:.4f}")
 
-#%%
+# Graficar exactitud promedio en función de la profundidad del árbol
+plt.figure(figsize=(8, 6))
+plt.plot(alturas, exactitudes_promedio, marker='o', linestyle='-', color='k', label='Exactitud promedio')
+plt.title('Exactitud promedio en función de la profundidad del árbol')
+plt.xlabel('Profundidad máxima del árbol')
+plt.ylabel('Exactitud promedio')
+plt.xticks(alturas)  
+plt.grid(alpha=0.6)
+plt.legend()
+plt.tight_layout()
+plt.show()
+#%% ------------------------------------------------------------------------------------------
 # 3c)
 
-alturas = [5, 10]
+alturas = [7, 8, 9, 10]
 # Hiperparametros 
 criterios = ['entropy', 'gini']  
 nsplits = 5
@@ -406,37 +437,51 @@ for i, (train_index, test_index) in enumerate(kf.split(X_dev)):
 
             resultados[i, j, k] = score
 
-# Matrices de confusion acumuladas por profundidad y criterio
-for hmax in alturas:
-    for crit in criterios:
-        print(f"\nMatriz de Confusión Acumulada para max_depth={hmax}, criterion={crit}:")
-        print(matrices_confusion_por_criterio_y_altura[(hmax, crit)])
+# Resultados de exactitud promedio para cada profundidad y criterio
+exactitudes_promedio_por_criterio = {crit: [] for crit in criterios}
 
-# Resultados de exactitud promedio para cada combinación de profundidad y criterio
-for j, hmax in enumerate(alturas):
-    for k, crit in enumerate(criterios):
-        print(f"Exactitud promedio para max_depth={hmax}, criterion={crit}: {np.mean(resultados[:, j, k]):.4f}")    
+for k, crit in enumerate(criterios):
+    for j, hmax in enumerate(alturas):
+        promedio = np.mean(resultados[:, j, k])
+        exactitudes_promedio_por_criterio[crit].append(promedio)
+        print(f"Exactitud promedio para max_depth={hmax}, criterion={crit}: {promedio:.4f}")
 
-#%%
+# Graficar exactitud promedio en función de la profundidad para ambos criterios
+plt.figure(figsize=(8, 6))
+for crit, color in zip(criterios, ['b', 'r']):  
+    plt.plot(alturas, exactitudes_promedio_por_criterio[crit], marker='o', linestyle='-', color=color, label=f'Exactitud promedio ({crit})')
+
+plt.title('Exactitud promedio en función de la profundidad')
+plt.xlabel('Profundidad máxima del árbol')
+plt.ylabel('Exactitud promedio')
+plt.xticks(alturas)  
+plt.grid(alpha=0.6)
+plt.legend() 
+plt.tight_layout()
+plt.show()
+
+#%% ------------------------------------------------------------------------------------------
 # 3d) 
 
 mejor_max_depth = 10
 mejor_criterio = 'entropy'
 
-# Entrenar el modelo con todo el conjunto de desarrollo
 modelo_final = DecisionTreeClassifier(max_depth=mejor_max_depth, criterion=mejor_criterio)
 modelo_final.fit(X_dev, y_dev)
-
-# Predecir las clases en el conjunto held-out (X_eval)
 predicciones = modelo_final.predict(X_eval)
-
-# Calcular la exactitud en el conjunto held-out
 exactitud = accuracy_score(y_eval, predicciones)
-
-# Calcular la matriz de confusión en el conjunto held-out
 matriz_confusion = confusion_matrix(y_eval, predicciones, labels=range(10))
 
 # Mostrar los resultados
 print(f"Exactitud en el conjunto held-out: {exactitud:.4f}")
 print("Matriz de Confusión en el conjunto held-out:")
 print(matriz_confusion)
+
+# Graficar matriz de confusion
+plt.figure(figsize=(8, 6))
+sns.heatmap(matriz_confusion, annot=True, fmt='d', cmap='Blues', cbar=True, xticklabels=range(10), yticklabels=range(10))
+plt.title('Matriz de confusion (Conjunto Held-Out)')
+plt.xlabel('Predicciones')
+plt.ylabel('Valor real')
+plt.tight_layout()
+plt.show()

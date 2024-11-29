@@ -260,13 +260,16 @@ for grupo in conjuntos_cuatro_atributos:
 
 # Graficar exactitudes
 plt.figure(figsize=(10, 6))
-x = range(len(grupos))  
-plt.plot(x, exactitudes, marker='o', linestyle='-', color='black', label='Exactitud')
+x = range(len(grupos))
+colores = ['lightblue','lightblue','lightblue','deepskyblue','deepskyblue','deepskyblue','blue','blue','blue'] # colores para el gráfico de barras
+barras = plt.bar(x, exactitudes, color=colores, edgecolor='black')
+# Agrego los valores encima de cada barra
+for bar in barras:
+    yval = bar.get_height()
+    plt.text(bar.get_x() + bar.get_width() / 2, yval, f'{round(yval,2)}', ha='center', va='bottom', fontsize=10)
 plt.xticks(x, grupos, rotation=45, ha='right')
 plt.xlabel('Grupos de atributos')
 plt.ylabel('Exactitud')
-plt.title('Exactitud en función de los grupos de atributos seleccionados')
-plt.grid(axis='y', linestyle='--', alpha=0.7)
 plt.legend()
 plt.tight_layout()
 plt.show()
